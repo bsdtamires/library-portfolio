@@ -1,7 +1,7 @@
 # Personal Library for Data Quality Validation (SQL-only)
 
 A SQLite database of my personal book collection (140 books with real titles
-and authors, fabricated enrichment data), paired with data quality checks
+and authors, with fabricated enrichment data), paired with data quality checks
 written as **plain SQL**, that can be run in three different ways depending on context.
 
 **Status: schema and data loaded, check scaffolding built, check logic in
@@ -13,18 +13,18 @@ being written by me, deliberately, as a portfolio exercise.
 
 `title` and `author` are my real list of books, unchanged. Every other column
 like `isbn`, `genre`, `publication_year`, `date_acquired`, `read_status`,
-`rating`, `format`, `pages` - was created/fabricated by AI so I was able to test data
-(`scripts/generate_dummy_data.py`), deliberately seeded with nulls,
-duplicates, out-of-range values, and bad formats, so the checks have real,
-known issues to catch. This is clearly labeled fabrication, not a claim
-about my actual reading history — `data/books_real_only.csv` keeps the
+`rating`, `format`, `pages` was created/fabricated by AI so I was able to test data
+(`scripts/generate_dummy_data.py`), seeded with nulls,
+duplicates, out-of-range values, and bad formats, so the checks have real issues to catch. 
+This is clearly labeled fabrication, not a claim
+about my actual reading history: `data/books_real_only.csv` keeps the
 unmodified real list initially provided.
 
 ## Why SQL-only, not pytest-as-the-logic
 
 SQL is my strongest skill; Python is one I'm actively building. The
-validation *logic* is 100% SQL (no framework decides what is "correct"
-means, a `SELECT` query does); 
+validation *logic* is 100% SQL (no framework decides what "correct"
+means), a `SELECT` query does; 
 
 ## Three ways to run the checks
 
@@ -52,7 +52,7 @@ bash run_checks.sh        # Git Bash / Mac / Linux
 ```
 
 All three run the exact same `.sql` files and apply the exact same
-pass/fail rule — they're three different reporting layers on top of one
+pass/fail rule, they're three different reporting layers on top of one
 set of checks, not three different sets of logic.
 
 ## The convention every check follows
@@ -63,9 +63,7 @@ Each file in `checks/` holds exactly **one** `SELECT` statement:
 - **Any row returned → FAIL**, and the row(s) are the actual offending
   data.
 
-Important: a check file must contain exactly one SQL statement. When 
-implement, put a check in one line — don't add real indented
-query below it, or the runner will error rather than run either one.
+Important: The test files must contain exactly one SQL statement.
 
 ## The four data quality dimensions
 
