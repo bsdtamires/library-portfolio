@@ -1,32 +1,30 @@
-# Personal Library — Data Quality Validation (SQL-only)
+# Personal Library for Data Quality Validation (SQL-only)
 
-A SQLite database of my personal book collection (140 books — real titles
+A SQLite database of my personal book collection (140 books with real titles
 and authors, fabricated enrichment data), paired with data quality checks
-written as **plain SQL**, run three different ways depending on context.
+written as **plain SQL**, that can be run in three different ways depending on context.
 
 **Status: schema and data loaded, check scaffolding built, check logic in
-progress.** Every file in `checks/` is a stub — a header comment describing
+progress.** Every file in `checks/` is a stub - a header comment describing
 what to verify, and a placeholder query. The actual validation SQL is
-being written by me, deliberately, as a learning exercise.
+being written by me, deliberately, as a portfolio exercise.
 
 ## What's real and what's fabricated, and why
 
-`title` and `author` are my real 140 books, unchanged. Every other column
-— `isbn`, `genre`, `publication_year`, `date_acquired`, `read_status`,
-`rating`, `format`, `pages` — is fabricated test data
+`title` and `author` are my real list of books, unchanged. Every other column
+like `isbn`, `genre`, `publication_year`, `date_acquired`, `read_status`,
+`rating`, `format`, `pages` - was created/fabricated by AI so I was able to test data
 (`scripts/generate_dummy_data.py`), deliberately seeded with nulls,
 duplicates, out-of-range values, and bad formats, so the checks have real,
 known issues to catch. This is clearly labeled fabrication, not a claim
 about my actual reading history — `data/books_real_only.csv` keeps the
-unmodified real list for provenance.
+unmodified real list initially provided.
 
-## Why SQL-only, not pytest-as-the-logic, not dbt
+## Why SQL-only, not pytest-as-the-logic
 
 SQL is my strongest skill; Python is one I'm actively building. The
-validation *logic* is 100% SQL — no framework decides what "correct"
-means, a `SELECT` query does. dbt is the industry-standard tool for
-exactly this pattern; I considered it and deliberately didn't reintroduce
-it here, since I'd already scoped it out of my current learning roadmap.
+validation *logic* is 100% SQL (no framework decides what is "correct"
+means, a `SELECT` query does); 
 
 ## Three ways to run the checks
 
@@ -65,8 +63,8 @@ Each file in `checks/` holds exactly **one** `SELECT` statement:
 - **Any row returned → FAIL**, and the row(s) are the actual offending
   data.
 
-Important: a check file must contain exactly one SQL statement. When you
-implement a check, **replace** the placeholder line — don't add your real
+Important: a check file must contain exactly one SQL statement. When 
+implement, put a check in one line — don't add real indented
 query below it, or the runner will error rather than run either one.
 
 ## The four data quality dimensions
@@ -97,7 +95,7 @@ run_checks.sh            — CLI runner, Git Bash / Mac / Linux / CI
 run_checks.ps1           — CLI runner, native Windows PowerShell
 ```
 
-## Next step
+## Next step (not yet implemented)
 
 Once the checks are implemented and passing, this suite runs automatically
 in CI/CD via GitHub Actions on every push — in progress.
